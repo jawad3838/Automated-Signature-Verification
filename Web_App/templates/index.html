@@ -1,0 +1,126 @@
+$def with (face_name, add_face, find_face, add_sig, find_sig)
+<!doctype html>
+
+<html>
+    <head>
+        <title>Signature Verification</title>
+        <link rel="stylesheet" type="text/css" href="./static/facenet.css" />
+		<script type="text/javascript" src="./static/jquery.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        
+	<script type="text/javascript">
+		
+		jQuery(document).ready(function(){
+		  jQuery("#feat_submit2").click(function(){
+    		jQuery("#sig1").animate({top: '140px',opacity: '0.5'},4000);
+  			});
+		});
+
+		jQuery(document).ready(function(){
+		  jQuery("#feat_submit2").click(function(){
+    		jQuery("#sig2").animate({bottom: '230px',opacity: '0.5'},4000);
+  			});
+		});
+
+
+		//ajax call for data post
+        	jQuery(document).ready(function() {
+			
+        		jQuery("#find_submit").click(function() {
+				var form_name = $$("input#form_name").val();
+				var file2 = $$("input#file2");
+        			jQuery.ajax({
+                                	type: "POST",
+					data: {form_name : form_name , file2 : file2},
+                                	success: function(face_name) {
+						jQuery('#ver_face_name').val(face_name).hide().fadeIn(1500);
+					},
+                                });
+                        return false;
+        		});
+        	});
+		//image display when selected
+		function dispAdd(input) {
+            		if (input.files && input.files[0]) {
+				var reader = new FileReader();
+	                	reader.onload = function (e) {
+                    			$$('#add_image')
+                       	 		.attr('src', e.target.result)
+                       	 		.width(700)
+                        		.height(150);
+                		};
+				reader.readAsDataURL(input.files[0]);
+            		}
+        	}
+		function dispFind(input) {
+            		if (input.files && input.files[0]) {
+				var reader = new FileReader();
+	                	reader.onload = function (e) {
+                    			$$('#find_image')
+                       	 		.attr('src', e.target.result)
+                       	 		.width(700)
+                        		.height(150);
+                		};
+				reader.readAsDataURL(input.files[0]);
+            		}
+        	}
+        
+        </script>
+    </head>
+    
+    <body>
+	<!-- <div class = "main_heading">
+		<h3>THIS IS MAIN HEADING</h3>
+	</div> -->
+	<div id="add_face" class="face_div">
+		<h3>Add A Signature</h3>	
+		<form name="add_face" method="POST" enctype="multipart/form-data" action="">
+			<label for="new_face_name">Writer Name:</label><br/><br/>
+    			<input type="text" name="new_face_name"><br/><br/>
+			<div class="img_canvas">
+				<img id="add_image" src="$add_face" width=700 height=150 >			
+			</div>
+			<div id="sig1" class ="sig_canvas" style="position:relative;z-index: 999">
+				<img id="add_sig" src="$add_sig" width=300 height=150 >			
+			</div>
+				
+			<input type="file" name="file1" id="file1" class="inputfile" multiple onchange="dispAdd(this);"/>
+			<label for="file1" class="file_label">Select Images</label>
+			<input type="hidden" id="form_name" name="form_name" value="add_face">
+			
+			<input id="add_submit" type="submit" value="Crop Signature" style="margin-left: 50px"><br/>
+  		</form>
+
+		<form name="calc_feat" method="POST" enctype="multipart/form-data" action="">
+			<input type="hidden" id="form_name" name="form_name" value="calc_feat">
+			<input id="feat_submit" type="submit" value="Calculate Features" style="margin-left: 50px; background-color: #2c3444"><br/>
+  		</form>
+			
+	</div>
+	<div id="find_face" class="face_div">
+		<h3>Add Test Signature</h3>  		
+		<form name="find_face" method="POST" enctype="multipart/form-data" action="">
+			<label for="rec_face_name">Difference Score is:</label><br/><br/>
+			<input type="text" name="ver_face_name" id="ver_face_name" value="$face_name" disabled style="color: #ff0000"><br/><br/>    			
+			<div class="img_canvas">
+				<img id="find_image" src="$find_face" width=700 height=150>
+			</div>
+			<div id="sig2" class ="sig_canvas" style="position:relative;z-index: 999">
+				<img id="find_sig" src="$find_sig" width=300 height=150 >			
+			</div>
+			<input type="file" name="file2" id="file2" class="inputfile" onchange="dispFind(this);" />
+			<label for="file2" class="file_label">Select Images</label>
+			<input type="hidden" id="form_name" name="form_name" value="find_face">    	
+			<input id="find_submit" type="submit" value="Crop Signature" style="margin-left: 50px"/>
+  		</form>
+
+		<form name="calc_feat2" method="POST" enctype="multipart/form-data" action="">
+			<input type="hidden" id="form_name" name="form_name" value="calc_feat2">
+			<input id="feat_submit2" type="submit" value="Calculate Features" style="margin-left: 50px;  background-color: #2c3444"><br/>
+  		</form>
+
+	</div>
+	
+    </body>
+</html>
