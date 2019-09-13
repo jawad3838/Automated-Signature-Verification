@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0,'C:/Users/Syed Jawwad Hamdani/Downloads/WisNet_SigVer')               #CHANGE PATH TO POINT TOWARDS ROOT FOLDER I.E. WisNet_SigVer
+#sys.path.insert(0,'C:/Users/Syed Jawwad Hamdani/Downloads/WisNet_SigVer')               #CHANGE PATH TO POINT TOWARDS ROOT FOLDER I.E. WisNet_SigVer
 
 import numpy as np
 from scipy.misc import imread, imsave
